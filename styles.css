@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.input-box, .output-box {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.column {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.column:last-child {
+    margin-right: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="url"],
+textarea {
+    width: 90%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button.add-button, button.generateButton {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.add-button:hover, button.generateButton:hover {
+    background-color: #0056b3;
+}
+.row {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #000; /* Change thickness to 2px and color to black */
+    padding-bottom: 10px; /* Optional: Add padding for spacing */
+}
+
+.row:last-child {
+    border-bottom: none; /* Remove the border for the last row */
+}
+.heading-wrapper {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Align items vertically centered */
+    gap: 10px; /* Space between heading and buttons */
+    margin-bottom: 10px; /* Space below each heading section */
+}
+
+.heading-wrapper label {
+    margin: 0; /* Remove margin from label */
+}
+
+.heading-wrapper button {
+    padding: 10px; /* Button padding */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Optional: Adjust for spacing */
+}
+
+.submit-button {
+    background-color: #28a745; /* Green color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+
+.project-entry{
+    border: 2px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    padding-top: 16px;
+    margin: 5px;
+}
