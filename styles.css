@@ -127,3 +127,36 @@ button.add-button:hover, button.generateButton:hover {
     padding-top: 16px;
     margin: 5px;
 }
+/* Add spacing below the Delete button */
+.delete-button {
+    margin-bottom: 10px; /* Adds space below the Delete button */
+}
+label[for="matchPercentageDisplay"] {
+    font-size: 1.2em; /* Adjust this value as needed */
+    font-weight: bold; /* Optional: makes the text bold */
+    color: #333; /* Optional: choose a color that fits your design */
+}
+label[for="latexCode"] {
+    font-size: 1.2em; /* Adjust to desired size */
+    font-weight: bold; /* Optional: makes the text bold */
+    color: #333; /* Optional: adjust color to fit design */
+}
+
+
+.result_buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+.match-percentage-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#matchPercentageDisplay {
+    font-size: 1.5em; /* Increase font size for percentage */
+    font-weight: bold; /* Bold styling for the percentage */
+    margin-left: 10px; /* Space between label and percentage */
+}
+

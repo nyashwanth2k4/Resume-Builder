@@ -39,7 +39,10 @@
                     <div class="column">
                         <label for="skills">Skills:</label>
                         <div id="skills-container">
-                            <input type="text" name="skills[]" placeholder="Enter a skill" required>
+                            <div class="skill-entry">
+                                <input type="text" name="skills[]" placeholder="Enter a skill" required>
+                                <button type="button" class="delete-button" onclick="deleteField(this)">Delete</button>
+                            </div>
                         </div>
                         <button type="button" class="add-button" onclick="addField('skills-container', 'skills[]')">+ Add Skill</button>
                     </div>
@@ -53,7 +56,8 @@
                             <div class="project-entry">
                                 <input type="text" name="projectHeading[]" placeholder="Project Heading" required>
                                 <input type="text" name="projectTechnologies[]" placeholder="Technologies Used" required>
-                                <textarea name="projectDescription[]" placeholder="Describe your project" rows="3" required></textarea>
+                                <textarea name="projectDescription[]" placeholder="Describe your project" rows="3" ></textarea>
+                                <button type="button" class="delete-button" onclick="deleteField(this)">Delete</button>
                             </div>
                         </div>
                         <button type="button" class="add-button" onclick="addProjectField()">+ Add Project</button>
@@ -65,7 +69,10 @@
                     <div class="column">
                         <label for="certifications">Certifications:</label>
                         <div id="certifications-container">
-                            <input type="text" name="certifications[]" placeholder="Enter a certification">
+                            <div class="certification-entry">
+                                <input type="text" name="certifications[]" placeholder="Enter a certification">
+                                <button type="button" class="delete-button" onclick="deleteField(this)">Delete</button>
+                            </div>
                         </div>
                         <button type="button" class="add-button" onclick="addField('certifications-container', 'certifications[]')">+ Add Certification</button>
                     </div>
@@ -100,23 +107,64 @@
 
         <!-- Output Section -->
         <div class="output-box">
-            <h2>Generated Output</h2>
+            <h1>Generated Output</h1>
             <div class="output-section">
                 
-                <div class="heading-wrapper">
-                    <label for="latexCode">Generated LaTeX Code:</label>
-                    <button id="downloadTexButton"><i class="fas fa-file-export" class="export-button" title="Export .tex file"></i></button> <!-- Download .tex Button -->
+                <div class="match-percentage-wrapper">
+                    <label for="matchPercentageDisplay">Resume to Job Description Match Percentage:</label>
+                    <span id="matchPercentageDisplay" style="font-weight: bold; font-size: 1.2em; margin-left: 10px;"></span>
                 </div>
-                <textarea id="latexCode" rows="25" readonly></textarea>
+                <div style="margin-top: 20px;"></div>
                 <div class="heading-wrapper">
-                    <label for="HTMLCode">Generated HTML Code:</label>
-                    <button id="displayHtmlButton"><i class="fas fa-eye" class="Preview-button" title="Preview"></i></button>
-                    <button id="openInNewPageButton"><i class="fas fa-external-link-alt" class="open-button" title="Open in New Page"></i></button> <!-- Open in New Page Button -->
-                    <button id="downloadPdfButton"><i class="fas fa-file-download" class="download-button" title="Download PDF"></i></button> <!-- Download PDF Button -->
+                    <label for="latexCode">Generated Resume:</label>
+                    <button id="showLatexButton" class="result_buttons" title="Show LaTeX Code">
+                        <div>
+                            <i class="fas fa-code"></i> <!-- Icon for LaTeX Code -->
+                        </div>
+                        <div>view latex</div>
+                    </button> 
+                    <button id="downloadTexButton" class="result_buttons"> 
+                        <div>  
+                            <!-- <i class="fas fa-file-export" class="export-button" title="Export .tex file"></i> -->
+                             <img src="tex.png" height="20px" width="auto">
+                        </div>
+                        <div>download</div>
+                    </button> <!-- Download .tex Button -->
+                    <button id="showHtmlButton" class="result_buttons">
+                        <div>
+                            <i class="fas fa-code" title="Show HTML Code"></i>
+                        </div>
+                        <div>view HTML</div>
+                    </button> <!-- New Show HTML Button -->
+                    <!-- <button id="displayHtmlButton" class="result_buttons">
+                        <i class="fas fa-eye" class="Preview-button" title="Preview"></i>
+                    </button> -->
+                    
+                    <button id="downloadPdfButton" class="result_buttons">
+                        <div>
+                            <!-- <i class="fas fa-file-download" class="download-button" title="Download PDF"></i> -->
+                            <img src="pdf.png" height="20px" width="auto">
+                        </div>
+                        <div>download</div>
+                        
+                    </button> <!-- Download PDF Button -->
+                    <button id="openInNewPageButton" class="result_buttons"><i class="fas fa-external-link-alt" class="open-button" title="Open in New Page"></i></button> <!-- Open in New Page Button -->
                 </div>
-                <textarea id="HTMLCode" rows="25" readonly></textarea>
-                <label for="matchPercentageDisplay">Match Percentage:</label>
-                <div id="matchPercentageDisplay" style="font-weight: bold; margin-top: 10px;"></div>
+                <!-- Hidden container for LaTeX code, initially set to display:none -->
+                <div id="latexCodeContainer" style="display:none;">
+                    <div class="heading-wrapper">
+                        <label for="latexCode">Generated LaTeX Code:</label>
+                    </div>
+                    <textarea id="latexCode" rows="25" readonly></textarea>
+                </div>
+
+                <div id="htmlCodeContainer" style="display:none;">
+                    <div class="heading-wrapper">
+                        <label for="HTMLCode">Generated HTML Code:</label>  
+                    </div>
+                    <textarea id="HTMLCode" rows="25" readonly></textarea>
+                </div>
+                
             </div>
             <div id="resumeDisplay" class="resume-display"></div>
         </div>
@@ -126,6 +174,31 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script>
+        document.getElementById('showLatexButton').addEventListener('click', function() {
+                const latexContainer = document.getElementById('latexCodeContainer');
+                
+                // Toggle the display of the LaTeX code container
+                if (latexContainer.style.display === 'none') {
+                    latexContainer.style.display = 'block';
+                    this.textContent = 'Hide LaTeX Code'; // Change button text
+                } else {
+                    latexContainer.style.display = 'none';
+                    this.textContent = 'Show LaTeX Code'; // Reset button text
+                }
+            });
+
+        document.getElementById('showHtmlButton').addEventListener('click', function() {
+                const htmlContainer = document.getElementById('htmlCodeContainer');
+                
+                // Make sure the HTML container is shown
+                if (htmlContainer.style.display === 'none') {
+                    htmlContainer.style.display = 'block';
+                    this.textContent = 'Hide HTML Code'; // Change button text
+                } else {
+                    htmlContainer.style.display = 'none';
+                    this.textContent = 'Show HTML Code'; // Reset button text
+                }
+            });
         
         document.addEventListener('DOMContentLoaded', function() {
             const tokenInput = document.getElementById('token');
@@ -159,34 +232,61 @@
         deleteTokenBtn.style.display = 'none'; // Hide the delete button
     });
 });
+        function deleteField(button) {
+            button.parentElement.remove();
+        }
 
-        function addProjectField() {
-            const container = document.getElementById('projects-container');
-            const newProjectEntry = document.createElement('div');
-            newProjectEntry.classList.add('project-entry');
-            
-            newProjectEntry.innerHTML = `
-                <input type="text" name="projectHeading[]" placeholder="Project Heading" required>
-                <input type="text" name="projectTechnologies[]" placeholder="Technologies Used" required>
-                <textarea name="projectDescription[]" placeholder="Describe your project" rows="3" required></textarea>
-            `;
-    
-    container.appendChild(newProjectEntry);
-}
-        
         function addField(containerId, inputName, isTextarea = false) {
             const container = document.getElementById(containerId);
+            const entryDiv = document.createElement('div');
+            entryDiv.classList.add('field-entry');
+            
             const newField = document.createElement(isTextarea ? 'textarea' : 'input');
             newField.name = inputName;
             newField.placeholder = isTextarea ? 'Describe your project' : 'Enter a value';
+            newField.required = true;
             if (isTextarea) {
                 newField.rows = 3;
             } else {
                 newField.type = 'text';
             }
-            newField.required = true;
-            container.appendChild(newField);
+            
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                deleteField(deleteButton);
+            };
+            
+            entryDiv.appendChild(newField);
+            entryDiv.appendChild(deleteButton);
+            container.appendChild(entryDiv);
         }
+
+        function addProjectField() {
+            const container = document.getElementById('projects-container');
+            const entryDiv = document.createElement('div');
+            entryDiv.classList.add('project-entry');
+            
+            entryDiv.innerHTML = `
+                <input type="text" name="projectHeading[]" placeholder="Project Heading" required>
+                <input type="text" name="projectTechnologies[]" placeholder="Technologies Used" required>
+                <textarea name="projectDescription[]" placeholder="Describe your project" rows="3" required></textarea>
+            `;
+            
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                deleteField(deleteButton);
+            };
+    
+    entryDiv.appendChild(deleteButton);
+    container.appendChild(entryDiv);
+}
+
         document.getElementById('resumeForm').addEventListener('submit', async function(event) {
         event.preventDefault();
         document.getElementById('loadingSymbol').style.display = 'flex';
@@ -332,6 +432,11 @@
                 const result1 = await response1.json();
                 console.log(result1)
                 document.getElementById('HTMLCode').value = result1.choices[0].message.content;
+
+                const generatedHtml = result1.choices[0].message.content;
+            
+            // Automatically display the generated HTML in the preview container
+            document.getElementById('resumeDisplay').innerHTML = generatedHtml;
             } else {
                 const errorData = await response1.json();
                 const errorMessage = errorData.error?.message || JSON.stringify(errorData);
@@ -365,7 +470,7 @@
                 const matchPercentage = result2.choices[0].message.content;
                 
                 // Update the match percentage display directly in the div
-                document.getElementById('matchPercentageDisplay').innerHTML = `Your resume matches the job description by ${matchPercentage}%`;
+                document.getElementById('matchPercentageDisplay').innerHTML = ` ${matchPercentage}%`;
             } else {
                 const errorData = await response2.json();
                 const errorMessage = errorData.error?.message || JSON.stringify(errorData);
